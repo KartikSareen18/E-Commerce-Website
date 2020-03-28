@@ -1,0 +1,32 @@
+<%- include('../partials/head.ejs') %>
+<link rel="stylesheet" href="/css/cart.css">
+</head>
+<body>
+   <%- include('../partials/navigation.ejs') %>
+    <main>
+        <ul class="cart__item-list">
+            <% for(let product of products){ %>
+                <li class="cart__item">
+                    <h1><%= product.productId.title %></h1>
+                    <h2>Quantity: <%= product.quantity %></h2>
+                </li>
+            <% } %>
+        </ul>
+        <div class="centered">
+            <h2>Total: ₹<%= totalSum %></h2>
+        </div>
+        <div class="centered">
+            <button id="order-btn" class="btn">ORDER</button>
+            <script src="https://js.stripe.com/v3/"></script>
+            <script>
+                var stripe=Stripe('pk_test_85MYMA58S06WovirGLRwf2BY00gCDQm1BP');
+                var orderBtn=document.getElementById('order-btn');
+                orderBtn.addEventListener('click',function(){
+                    stripe.redirectToCheckout({
+                        sessionId:'<%= sessionId %>'
+                    });
+                });
+            </script>
+        </div>
+    </main>
+<%- include('../partials/end.ejs') %>
